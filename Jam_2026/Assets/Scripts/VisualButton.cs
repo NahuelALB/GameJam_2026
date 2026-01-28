@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
-public class BotonVisual : MonoBehaviour
+public class VisualButton : MonoBehaviour
 {
     public Image arrow; //Referencia de la imagen
     private Color originalColor;

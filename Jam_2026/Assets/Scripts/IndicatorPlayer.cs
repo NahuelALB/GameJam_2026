@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class IndicadorPlayer : MonoBehaviour
+public class IndicatorPlayer : MonoBehaviour
 {
     //Material normal
     public Material baseColor;
