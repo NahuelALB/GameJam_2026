@@ -7,11 +7,11 @@ public class VisualButton : MonoBehaviour
     public Image arrow; //Referencia de la imagen
     private Color originalColor;
     public Color brightColor;
-    public float velocidadDesvanecimiento = 3f; // Qué tan rápido se apaga
+    public float velocidadDesvanecimiento = 3f; // Qu tan repido se apaga
 
     void Awake()
     {
-        //Tomamos el color original del botón
+        //Tomamos el color original del botÃ³n
         arrow = GetComponent<Image>();
         originalColor = arrow.color;
     }
@@ -25,10 +25,10 @@ public class VisualButton : MonoBehaviour
 
     IEnumerator EfectoBrilloSuave()
     {
-        // 1. Encendido instantáneo al color brillante
+        // 1. Encendido instant neo al color brillante
         arrow.color = brightColor;
-
-        // 2. Apagado progresivo (Fade out)
+        
+        //2. Apagado progresivo (Fade out)
         float t = 0;
         while (t < 1f)
         {
@@ -37,7 +37,6 @@ public class VisualButton : MonoBehaviour
             arrow.color = Color.Lerp(brightColor, originalColor, t);
             yield return null;
         }
-
         // Aseguramos que quede el color original al final
         arrow.color = originalColor;
     }

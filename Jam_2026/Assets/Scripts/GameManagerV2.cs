@@ -1,26 +1,33 @@
-using NUnit.Framework;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
+using UnityEngine.UI;
 
 public class GameManagerV2 : MonoBehaviour
 {
-    /*  Todo sobre el Player 1  */
-    public IndicatorPlayer player_1; //Tomamos el objeto Player_1
-    public VisualButton[] buttonsPlayer_1; //Tomamos las imagenes del canvas del Player_1 para los controles
+    // Todo sobre el Player 1
+    public IndicatorPlayer player_1; 
+    public VisualButton[] buttonsPlayer_1; 
+    public Slider sliderP1; //Referencia a la barra del Jugador 
 
-    /*  Todo sobre el Player 2  */
-    public IndicatorPlayer player_2; //Tomamos el objeto Player_1
-    public VisualButton[] buttonsPlayer_2; //Tomamos las imagenes del canvas del Player_1 para los controles
+    // Todo sobre el Player 2
+    public IndicatorPlayer player_2; 
+    public VisualButton[] buttonsPlayer_2; 
+    public Slider sliderP2; 
 
-    /*  En esta lista se almacenará la secuencia que los jugadores irán agregando hasta que uno pierda  */
     private List<int> gameSequence = new List<int>();
-    private int currentIndex = 0; //Replicar la secuencia desde el inicio
+    private int currentIndex = 0; 
+    private bool canPress; 
+    private int playerTurn; 
+    private bool waitingNewInput = false; 
 
-    private bool canPress; //Saber si el jugador puede interactuar con los controles
-    private int playerTurn; //Que jugador empezará primero
-    private bool waitingNewInput = false; //Saber si se debe agregar un nuevo input a la secuencia
+    // Control de vidas
+    private int p1Lives = 3;
+    private int p2Lives = 3;
+
+    // Contadores de teclas acertadas
+    private int p1Hits = 0;
+    private int p2Hits = 0;
 
     public float time = 10;
     private float timeForAnswer;
@@ -30,40 +37,36 @@ public class GameManagerV2 : MonoBehaviour
         canPress = false;
         Invoke("StartTurn", 3f);
         timeForAnswer = time;
+
+        // barras en 0 al empezar
+        if (sliderP1 != null) sliderP1.value = 0;
+        if (sliderP2 != null) sliderP2.value = 0;
     }
 
     void Update()
     {
-        if (canPress == false) return;//Evitamos que se toque los controles en momentos muertos del juego
-
+        if (canPress == false) return; 
+        
         if (playerTurn == 0) DetectControls(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
         else DetectControls(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow);
 
-        if(gameSequence.Count >= 1) //Iniciamos un Timer
+        if (gameSequence.Count >= 1) 
         {
             timeForAnswer -= Time.deltaTime;
+            if (timeForAnswer < 1)
+            {
+                ManejarFallo(); 
+            }
         }
-
-        if (timeForAnswer < 1)
-        {
-            canPress = false;
-            Invoke("RepeatSequence", 3f);
-       
-        };
-
-        Debug.LogWarning(Mathf.FloorToInt(timeForAnswer));
     }
 
-
-    /* En este Método se realiza el ""Sorteo de cual es el jugador que comienza la partida"" */
     void StartTurn()
     {
         playerTurn = Random.Range(0, 2);
-        Debug.Log(playerTurn);
+        Debug.Log("Empieza el Jugador: " + playerTurn);
         canPress = true;
     }
 
-    /* Método para poder detectar los controles y el procesamiento que tendrá para identificar los inputs */
     void DetectControls(KeyCode up, KeyCode down, KeyCode left, KeyCode right)
     {
         if (Input.GetKeyUp(up)) ProcessInput(0);
@@ -72,14 +75,11 @@ public class GameManagerV2 : MonoBehaviour
         else if (Input.GetKeyUp(right)) ProcessInput(3);
     }
 
-    /* En este metodo lo que se realiza es la lógica del juego en sí un player será el que empiece */
     void ProcessInput(int inputKey)
     {
-        //El botón del jugador actual parpadea al tocarlo
         if (playerTurn == 0) buttonsPlayer_1[inputKey].Brilla();
         else buttonsPlayer_2[inputKey].Brilla();
 
-        //Agregar un nuevo input si la repetición fue exitosa
         if (waitingNewInput == true)
         {
             gameSequence.Add(inputKey);
@@ -87,12 +87,10 @@ public class GameManagerV2 : MonoBehaviour
             waitingNewInput = false;
             currentIndex = 0;
             timeForAnswer = 10;
-
             Invoke("ChangeTurn", 0.5f);
             return;
         }
 
-        //Dar el primer input del juego para poder iniciar el Versus
         if (gameSequence.Count == 0)
         {
             gameSequence.Add(inputKey);
@@ -101,45 +99,109 @@ public class GameManagerV2 : MonoBehaviour
             return;
         }
 
-        //Realizar la secuencia mostrada
+        // VALIDACIÃ“N DE TECLA
         if (inputKey == gameSequence[currentIndex])
         {
-            currentIndex++; //Pasaremos al siguiente indice repitiendo esto
+            // sumamos el acierto por cada TECLA correcta
+            if (playerTurn == 0)
+            {
+                p1Hits++;
+                if (sliderP1 != null) sliderP1.value = p1Hits; // Actualiza la barra P1
+                if (p1Hits >= 10)
+                {
+                    p1Lives++;
+                    p1Hits = 0;
+                    if (sliderP1 != null) sliderP1.value = 0; // Reinicia la barra P1
+                    Debug.Log("<color=cyan>Â¡P1 ganÃ³ vida extra! Total: " + p1Lives + "</color>");
+                }
+            }
+            else
+            {
+                p2Hits++;
+                if (sliderP2 != null) sliderP2.value = p2Hits; // Actualiza la barra P2
+                if (p2Hits >= 10)
+                {
+                    p2Lives++;
+                    p2Hits = 0;
+                    if (sliderP2 != null) sliderP2.value = 0; // Reinicia la barra P2
+                    Debug.Log("<color=cyan>Â¡P2 ganÃ³ vida extra! Total: " + p2Lives + "</color>");
+                }
+            }
 
+            currentIndex++;
             if (currentIndex >= gameSequence.Count)
             {
-                //El indicador de quien acaba de jugar se pone verde
                 if (playerTurn == 0) player_1.ViewCorrect();
                 else player_2.ViewCorrect();
 
-                Debug.Log("CORRECTOOO!! Agrega una nueva interacción");
-
+                Debug.Log("CORRECTOOO!! Agrega una nueva interaccion");
                 waitingNewInput = true;
             }
         }
         else
         {
-            //El indicador de quien falló se pone rojo
-            if (playerTurn == 0) player_1.ViewError();
-            else player_2.ViewError();
-            Debug.Log("FALLASTE!! Se reinicia la secuencia");
-            canPress = false;
-            Invoke("RepeatSequence", 3f);
+            ManejarFallo();
         }
     }
 
-    /* Método para cambiar de turno de los jugadores */
-    void ChangeTurn() 
+    void ManejarFallo()
     {
-        playerTurn = (playerTurn == 0) ? 1 : 0;
+        canPress = false;
+        
+        if (playerTurn == 0)
+        {
+            p1Lives--;
+            p1Hits = 0; // Se pierde la racha al fallar
+            if (sliderP1 != null) sliderP1.value = 0; // Reinicia la barra al fallar
+            Debug.Log("P1 FALLÃ“. Vidas: " + p1Lives);
+            if (p1Lives > 0) player_1.ViewWarning();
+            else player_1.ViewError();
+        }
+        else
+        {
+            p2Lives--;
+            p2Hits = 0; // Se pierde la racha al fallar
+            if (sliderP2 != null) sliderP2.value = 0; //Reinicia la barra al fallar
+            Debug.Log("P2 FALLÃ“. Vidas: " + p2Lives);
+            if (p2Lives > 0) player_2.ViewWarning();
+            else player_2.ViewError();
+        }
+
+        if (p1Lives <= 0 || p2Lives <= 0)
+        {
+            Debug.Log("GAME OVER!!");
+            Invoke("RepeatSequence", 3f);
+        }
+        else
+        {
+            Invoke("ReintentarMismoTurno", 1.5f);
+        }
+    }
+
+    void ReintentarMismoTurno()
+    {
+        currentIndex = 0;
+        timeForAnswer = time;
         canPress = true;
     }
 
-    /* Método para poder reiniciar una secuencia cuando unos de los jugadores se equivocaron */
-    void RepeatSequence() 
+    void ChangeTurn()
+    {
+        playerTurn = (playerTurn == 0) ? 1 : 0;
+        canPress = true;
+        timeForAnswer = time;
+    }
+
+    void RepeatSequence()
     {
         gameSequence.Clear();
-        Debug.Log("Empieza el Jugador: " + playerTurn);
+        p1Lives = 3; 
+        p2Lives = 3;
+        p1Hits = 0; 
+        p2Hits = 0;
+        if (sliderP1 != null) sliderP1.value = 0; // Reset visual
+        if (sliderP2 != null) sliderP2.value = 0; // Reset visual
+        currentIndex = 0;
         canPress = true;
         timeForAnswer = time;
     }
