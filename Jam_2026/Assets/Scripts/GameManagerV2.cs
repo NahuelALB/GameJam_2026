@@ -244,6 +244,7 @@ public class GameManagerV2 : MonoBehaviour
 
         if (waitingNewInput == true)
         {
+            FindObjectOfType<AudioManager>().PlayGameSound(playerTurn, inputKey, true);
             gameSequence.Add(inputKey);
             canPress = false;
             waitingNewInput = false;
