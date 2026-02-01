@@ -37,8 +37,7 @@ public class GameManagerV2 : MonoBehaviour
     public float time = 10;
     private float timeForAnswer;
     public TextMeshProUGUI timerUI;
-    public GameObject player1_image;
-    public GameObject player2_image;
+
 
     void Start()
     {
@@ -58,15 +57,15 @@ public class GameManagerV2 : MonoBehaviour
 
         if (playerTurn == 0)
         {
-            player1_image.SetActive(true);
-            player2_image.SetActive(false);
+            //player1_image.SetActive(true);
+            //player2_image.SetActive(false);
             StartCoroutine(DetectControls(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D));
             //DetectControls(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
         }
         else
         {
-            player1_image.SetActive(false);
-            player2_image.SetActive(true);
+ //           player1_image.SetActive(false);
+   //         player2_image.SetActive(true);
             StartCoroutine(DetectControls(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow));
             //DetectControls(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow);
         }
