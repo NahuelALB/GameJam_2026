@@ -27,14 +27,16 @@ public class GameManagerV2 : MonoBehaviour
 
     // Control de vidas
     private int p1Lives = 3;
+    public TextMeshProUGUI healthP1;
     private int p2Lives = 3;
+    public TextMeshProUGUI healthP2;
 
     // Contadores de teclas acertadas
     private int p1Hits = 0;
     private int p2Hits = 0;
 
     // Todo sobre la UI
-    public float time = 10;
+    public float time = 20;
     private float timeForAnswer;
     public TextMeshProUGUI timerUI;
 
@@ -81,6 +83,9 @@ public class GameManagerV2 : MonoBehaviour
 
 
         timerUI.text = Mathf.FloorToInt(timeForAnswer).ToString();
+
+        healthP1.text = p1Lives.ToString();
+        healthP2.text = p2Lives.ToString();
     }
 
     void StartTurn()
