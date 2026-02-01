@@ -7,13 +7,13 @@ using TMPro;
 public class GameManagerV2 : MonoBehaviour
 {
     // Todo sobre el Player 1
-    public IndicatorPlayer player_1;
+    //public IndicatorPlayer player_1;
     public Animator Player_Robot;
     public VisualButton[] buttonsPlayer_1;
     public Slider sliderP1; //Referencia a la barra del Jugador 
 
     // Todo sobre el Player 2
-    public IndicatorPlayer player_2;
+    //public IndicatorPlayer player_2;
     public Animator Player_Coquena;
     public VisualButton[] buttonsPlayer_2;
     public Slider sliderP2;
@@ -92,7 +92,7 @@ public class GameManagerV2 : MonoBehaviour
 
     IEnumerator DetectControls(KeyCode up, KeyCode down, KeyCode left, KeyCode right)
     {
-        if (Input.GetKeyUp(up))
+        if (Input.GetKeyDown(up))
         {
             ProcessInput(0);
             if (playerTurn == 0)
@@ -122,7 +122,7 @@ public class GameManagerV2 : MonoBehaviour
                 canPress = true;
             }
         }
-        else if (Input.GetKeyUp(down))
+        else if (Input.GetKeyDown(down))
         {
             ProcessInput(1);
             if (playerTurn == 0)
@@ -152,7 +152,7 @@ public class GameManagerV2 : MonoBehaviour
                 canPress = true;
             }
         }
-        else if (Input.GetKeyUp(left))
+        else if (Input.GetKeyDown(left))
         {
             ProcessInput(2);
             if (playerTurn == 0)
@@ -182,7 +182,7 @@ public class GameManagerV2 : MonoBehaviour
                 canPress = true;
             }
         }
-        else if (Input.GetKeyUp(right))
+        else if (Input.GetKeyDown(right))
         {
             ProcessInput(3);
             if (playerTurn == 0)
@@ -279,8 +279,8 @@ public class GameManagerV2 : MonoBehaviour
             currentIndex++;
             if (currentIndex >= gameSequence.Count)
             {
-                if (playerTurn == 0) player_1.ViewCorrect();
-                else player_2.ViewCorrect();
+                //if (playerTurn == 0) player_1.ViewCorrect();
+                //else player_2.ViewCorrect();
 
                 Debug.Log("CORRECTOOO!! Agrega una nueva interaccion");
                 waitingNewInput = true;
@@ -302,8 +302,8 @@ public class GameManagerV2 : MonoBehaviour
             p1Hits = 0; // Se pierde la racha al fallar
             if (sliderP1 != null) sliderP1.value = 0; // Reinicia la barra al fallar
             Debug.Log("P1 FALLÓ. Vidas: " + p1Lives);
-            if (p1Lives > 0) player_1.ViewWarning();
-            else player_1.ViewError();
+            //if (p1Lives > 0) player_1.ViewWarning();
+            //else player_1.ViewError();
         }
         else
         {
@@ -311,8 +311,8 @@ public class GameManagerV2 : MonoBehaviour
             p2Hits = 0; // Se pierde la racha al fallar
             if (sliderP2 != null) sliderP2.value = 0; //Reinicia la barra al fallar
             Debug.Log("P2 FALLÓ. Vidas: " + p2Lives);
-            if (p2Lives > 0) player_2.ViewWarning();
-            else player_2.ViewError();
+           // if (p2Lives > 0) player_2.ViewWarning();
+           // else player_2.ViewError();
         }
 
         if (p1Lives <= 0 || p2Lives <= 0)
