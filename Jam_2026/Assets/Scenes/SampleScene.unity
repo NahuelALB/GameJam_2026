@@ -655,7 +655,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 148
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -1087,7 +1087,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 148
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -1373,7 +1373,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 148
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -1729,7 +1729,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 148
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -2215,7 +2215,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 148
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -2578,7 +2578,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 148
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -2707,7 +2707,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 148
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -3001,7 +3001,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 148
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -3314,7 +3314,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 148
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -3716,7 +3716,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 148
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -4065,7 +4065,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 57babbc9b4394794493ba3e3290be234, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.73
   m_Pitch: 1
   Loop: 1
   Mute: 0
