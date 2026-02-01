@@ -123,7 +123,7 @@ public class GameManagerV2 : MonoBehaviour
         // VALIDACIÓN DE TECLA
         if (inputKey == gameSequence[currentIndex])
         {
-            // sumamos el acierto por cada TECLA correcta
+            FindObjectOfType<AudioManager>().PlayGameSound(playerTurn, inputKey, true);// sumamos el acierto por cada TECLA correcta
             if (playerTurn == 0)
             {
                 p1Hits++;
@@ -161,10 +161,10 @@ public class GameManagerV2 : MonoBehaviour
         }
         else
         {
+            FindObjectOfType<AudioManager>().PlayGameSound(playerTurn, inputKey, false);
             ManejarFallo();
         }
     }
-
     void ManejarFallo()
     {
         canPress = false;
