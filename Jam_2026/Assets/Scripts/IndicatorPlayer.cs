@@ -15,23 +15,23 @@ public class IndicatorPlayer : MonoBehaviour
 
     void Start()
     {
-        rendMaterials.material = baseColor;
+      //  rendMaterials.material = baseColor;
     }
 
     public void ViewCorrect()
     {
-        StartCoroutine(FlashGreen());
+       // StartCoroutine(FlashGreen());
     }
 
     // AGREGADO: Método para mostrar el color naranja al perder una vida
     public void ViewWarning()
     {
-        StartCoroutine(FlashOrange());
+       // StartCoroutine(FlashOrange());
     }
 
     public void ViewError()
     {
-        StartCoroutine(FlashRed());
+       // StartCoroutine(FlashRed());
     }
 
     IEnumerator FlashGreen()
