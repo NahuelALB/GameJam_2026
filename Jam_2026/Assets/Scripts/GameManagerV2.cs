@@ -60,13 +60,15 @@ public class GameManagerV2 : MonoBehaviour
         {
             player1_image.SetActive(true);
             player2_image.SetActive(false);
-            DetectControls(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
+            StartCoroutine(DetectControls(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D));
+            //DetectControls(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
         }
         else
         {
             player1_image.SetActive(false);
             player2_image.SetActive(true);
-            DetectControls(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow);
+            StartCoroutine(DetectControls(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow));
+            //DetectControls(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow);
         }
 
         if (gameSequence.Count >= 1)
@@ -89,7 +91,7 @@ public class GameManagerV2 : MonoBehaviour
         canPress = true;
     }
 
-    void DetectControls(KeyCode up, KeyCode down, KeyCode left, KeyCode right)
+    IEnumerator DetectControls(KeyCode up, KeyCode down, KeyCode left, KeyCode right)
     {
         if (Input.GetKeyUp(up))
         {
@@ -102,6 +104,10 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Robot.SetBool("Down", false);
                 Player_Robot.SetBool("Left", false);
                 Player_Robot.SetBool("Right", false);
+
+                canPress = false;
+                yield return new WaitForSeconds(0.5f);
+                canPress = true;
             }
             else
             {
@@ -111,6 +117,10 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Coquena.SetBool("Down", false);
                 Player_Coquena.SetBool("Left", false);
                 Player_Coquena.SetBool("Right", false);
+
+                canPress = false;
+                yield return new WaitForSeconds(0.5f);
+                canPress = true;
             }
         }
         else if (Input.GetKeyUp(down))
@@ -124,6 +134,10 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Robot.SetBool("Up", false);
                 Player_Robot.SetBool("Left", false);
                 Player_Robot.SetBool("Right", false);
+
+                canPress = false;
+                yield return new WaitForSeconds(0.5f);
+                canPress = true;
             }
             else
             {
@@ -133,6 +147,10 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Coquena.SetBool("Up", false);
                 Player_Coquena.SetBool("Left", false);
                 Player_Coquena.SetBool("Right", false);
+
+                canPress = false;
+                yield return new WaitForSeconds(0.5f);
+                canPress = true;
             }
         }
         else if (Input.GetKeyUp(left))
@@ -146,6 +164,10 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Robot.SetBool("Right", false);
                 Player_Robot.SetBool("Up", false);
                 Player_Robot.SetBool("Down", false);
+
+                canPress = false;
+                yield return new WaitForSeconds(0.5f);
+                canPress = true;
             }
             else
             {
@@ -155,10 +177,14 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Coquena.SetBool("Right", false);
                 Player_Coquena.SetBool("Up", false);
                 Player_Coquena.SetBool("Down", false);
+
+                canPress = false;
+                yield return new WaitForSeconds(0.5f);
+                canPress = true;
             }
         }
-        else if (Input.GetKeyUp(right)) 
-        { 
+        else if (Input.GetKeyUp(right))
+        {
             ProcessInput(3);
             if (playerTurn == 0)
             {
@@ -168,6 +194,10 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Robot.SetBool("Left", false);
                 Player_Robot.SetBool("Up", false);
                 Player_Robot.SetBool("Down", false);
+
+                canPress = false;
+                yield return new WaitForSeconds(0.5f);
+                canPress = true;
             }
             else
             {
@@ -177,6 +207,10 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Coquena.SetBool("Left", false);
                 Player_Coquena.SetBool("Up", false);
                 Player_Coquena.SetBool("Down", false);
+
+                canPress = false;
+                yield return new WaitForSeconds(0.5f);
+                canPress = true;
             }
         }
         else
@@ -187,6 +221,105 @@ public class GameManagerV2 : MonoBehaviour
             Player_Coquena.SetBool("Idle", true);
         }
     }
+
+    //void DetectControls(KeyCode up, KeyCode down, KeyCode left, KeyCode right)
+    //{
+    //    if (Input.GetKeyUp(up))
+    //    {
+    //        ProcessInput(0);
+    //        if (playerTurn == 0)
+    //        {
+    //            Player_Robot.SetBool("Idle", false);
+    //            Player_Robot.SetBool("Move", true);
+    //            Player_Robot.SetBool("Up", true);
+    //            Player_Robot.SetBool("Down", false);
+    //            Player_Robot.SetBool("Left", false);
+    //            Player_Robot.SetBool("Right", false);
+    //        }
+    //        else
+    //        {
+    //            Player_Coquena.SetBool("Idle", false);
+    //            Player_Coquena.SetBool("Move", true);
+    //            Player_Coquena.SetBool("Up", true);
+    //            Player_Coquena.SetBool("Down", false);
+    //            Player_Coquena.SetBool("Left", false);
+    //            Player_Coquena.SetBool("Right", false);
+    //        }
+    //    }
+    //    else if (Input.GetKeyUp(down))
+    //    {
+    //        ProcessInput(1);
+    //        if (playerTurn == 0)
+    //        {
+    //            Player_Robot.SetBool("Idle", false);
+    //            Player_Robot.SetBool("Move", true);
+    //            Player_Robot.SetBool("Down", true);
+    //            Player_Robot.SetBool("Up", false);
+    //            Player_Robot.SetBool("Left", false);
+    //            Player_Robot.SetBool("Right", false);
+    //        }
+    //        else
+    //        {
+    //            Player_Coquena.SetBool("Idle", false);
+    //            Player_Coquena.SetBool("Move", true);
+    //            Player_Coquena.SetBool("Down", true);
+    //            Player_Coquena.SetBool("Up", false);
+    //            Player_Coquena.SetBool("Left", false);
+    //            Player_Coquena.SetBool("Right", false);
+    //        }
+    //    }
+    //    else if (Input.GetKeyUp(left))
+    //    {
+    //        ProcessInput(2);
+    //        if (playerTurn == 0)
+    //        {
+    //            Player_Robot.SetBool("Idle", false);
+    //            Player_Robot.SetBool("Move", true);
+    //            Player_Robot.SetBool("Left", true);
+    //            Player_Robot.SetBool("Right", false);
+    //            Player_Robot.SetBool("Up", false);
+    //            Player_Robot.SetBool("Down", false);
+    //        }
+    //        else
+    //        {
+    //            Player_Coquena.SetBool("Idle", false);
+    //            Player_Coquena.SetBool("Move", true);
+    //            Player_Coquena.SetBool("Left", true);
+    //            Player_Coquena.SetBool("Right", false);
+    //            Player_Coquena.SetBool("Up", false);
+    //            Player_Coquena.SetBool("Down", false);
+    //        }
+    //    }
+    //    else if (Input.GetKeyUp(right))
+    //    {
+    //        ProcessInput(3);
+    //        if (playerTurn == 0)
+    //        {
+    //            Player_Robot.SetBool("Idle", false);
+    //            Player_Robot.SetBool("Move", true);
+    //            Player_Robot.SetBool("Right", true);
+    //            Player_Robot.SetBool("Left", false);
+    //            Player_Robot.SetBool("Up", false);
+    //            Player_Robot.SetBool("Down", false);
+    //        }
+    //        else
+    //        {
+    //            Player_Coquena.SetBool("Idle", false);
+    //            Player_Coquena.SetBool("Move", true);
+    //            Player_Coquena.SetBool("Right", true);
+    //            Player_Coquena.SetBool("Left", false);
+    //            Player_Coquena.SetBool("Up", false);
+    //            Player_Coquena.SetBool("Down", false);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Player_Robot.SetBool("Move", false);
+    //        Player_Robot.SetBool("Idle", true);
+    //        Player_Coquena.SetBool("Move", false);
+    //        Player_Coquena.SetBool("Idle", true);
+    //    }
+    //}
 
     void ProcessInput(int inputKey)
     {
