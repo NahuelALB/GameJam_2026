@@ -37,8 +37,7 @@ public class GameManagerV2 : MonoBehaviour
     public float time = 10;
     private float timeForAnswer;
     public TextMeshProUGUI timerUI;
-    public GameObject player1_image;
-    public GameObject player2_image;
+
 
     void Start()
     {
@@ -58,15 +57,15 @@ public class GameManagerV2 : MonoBehaviour
 
         if (playerTurn == 0)
         {
-            player1_image.SetActive(true);
-            player2_image.SetActive(false);
+            //player1_image.SetActive(true);
+            //player2_image.SetActive(false);
             StartCoroutine(DetectControls(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D));
             //DetectControls(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
         }
         else
         {
-            player1_image.SetActive(false);
-            player2_image.SetActive(true);
+ //           player1_image.SetActive(false);
+   //         player2_image.SetActive(true);
             StartCoroutine(DetectControls(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow));
             //DetectControls(KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow);
         }
@@ -106,7 +105,7 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Robot.SetBool("Right", false);
 
                 canPress = false;
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.2f);
                 canPress = true;
             }
             else
@@ -119,7 +118,7 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Coquena.SetBool("Right", false);
 
                 canPress = false;
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.2f);
                 canPress = true;
             }
         }
@@ -136,7 +135,7 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Robot.SetBool("Right", false);
 
                 canPress = false;
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.2f);
                 canPress = true;
             }
             else
@@ -149,7 +148,7 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Coquena.SetBool("Right", false);
 
                 canPress = false;
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.2f);
                 canPress = true;
             }
         }
@@ -166,7 +165,7 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Robot.SetBool("Down", false);
 
                 canPress = false;
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.2f);
                 canPress = true;
             }
             else
@@ -179,7 +178,7 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Coquena.SetBool("Down", false);
 
                 canPress = false;
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.2f);
                 canPress = true;
             }
         }
@@ -196,7 +195,7 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Robot.SetBool("Down", false);
 
                 canPress = false;
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.2f);
                 canPress = true;
             }
             else
@@ -209,7 +208,7 @@ public class GameManagerV2 : MonoBehaviour
                 Player_Coquena.SetBool("Down", false);
 
                 canPress = false;
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.2f);
                 canPress = true;
             }
         }
@@ -222,104 +221,6 @@ public class GameManagerV2 : MonoBehaviour
         }
     }
 
-    //void DetectControls(KeyCode up, KeyCode down, KeyCode left, KeyCode right)
-    //{
-    //    if (Input.GetKeyUp(up))
-    //    {
-    //        ProcessInput(0);
-    //        if (playerTurn == 0)
-    //        {
-    //            Player_Robot.SetBool("Idle", false);
-    //            Player_Robot.SetBool("Move", true);
-    //            Player_Robot.SetBool("Up", true);
-    //            Player_Robot.SetBool("Down", false);
-    //            Player_Robot.SetBool("Left", false);
-    //            Player_Robot.SetBool("Right", false);
-    //        }
-    //        else
-    //        {
-    //            Player_Coquena.SetBool("Idle", false);
-    //            Player_Coquena.SetBool("Move", true);
-    //            Player_Coquena.SetBool("Up", true);
-    //            Player_Coquena.SetBool("Down", false);
-    //            Player_Coquena.SetBool("Left", false);
-    //            Player_Coquena.SetBool("Right", false);
-    //        }
-    //    }
-    //    else if (Input.GetKeyUp(down))
-    //    {
-    //        ProcessInput(1);
-    //        if (playerTurn == 0)
-    //        {
-    //            Player_Robot.SetBool("Idle", false);
-    //            Player_Robot.SetBool("Move", true);
-    //            Player_Robot.SetBool("Down", true);
-    //            Player_Robot.SetBool("Up", false);
-    //            Player_Robot.SetBool("Left", false);
-    //            Player_Robot.SetBool("Right", false);
-    //        }
-    //        else
-    //        {
-    //            Player_Coquena.SetBool("Idle", false);
-    //            Player_Coquena.SetBool("Move", true);
-    //            Player_Coquena.SetBool("Down", true);
-    //            Player_Coquena.SetBool("Up", false);
-    //            Player_Coquena.SetBool("Left", false);
-    //            Player_Coquena.SetBool("Right", false);
-    //        }
-    //    }
-    //    else if (Input.GetKeyUp(left))
-    //    {
-    //        ProcessInput(2);
-    //        if (playerTurn == 0)
-    //        {
-    //            Player_Robot.SetBool("Idle", false);
-    //            Player_Robot.SetBool("Move", true);
-    //            Player_Robot.SetBool("Left", true);
-    //            Player_Robot.SetBool("Right", false);
-    //            Player_Robot.SetBool("Up", false);
-    //            Player_Robot.SetBool("Down", false);
-    //        }
-    //        else
-    //        {
-    //            Player_Coquena.SetBool("Idle", false);
-    //            Player_Coquena.SetBool("Move", true);
-    //            Player_Coquena.SetBool("Left", true);
-    //            Player_Coquena.SetBool("Right", false);
-    //            Player_Coquena.SetBool("Up", false);
-    //            Player_Coquena.SetBool("Down", false);
-    //        }
-    //    }
-    //    else if (Input.GetKeyUp(right))
-    //    {
-    //        ProcessInput(3);
-    //        if (playerTurn == 0)
-    //        {
-    //            Player_Robot.SetBool("Idle", false);
-    //            Player_Robot.SetBool("Move", true);
-    //            Player_Robot.SetBool("Right", true);
-    //            Player_Robot.SetBool("Left", false);
-    //            Player_Robot.SetBool("Up", false);
-    //            Player_Robot.SetBool("Down", false);
-    //        }
-    //        else
-    //        {
-    //            Player_Coquena.SetBool("Idle", false);
-    //            Player_Coquena.SetBool("Move", true);
-    //            Player_Coquena.SetBool("Right", true);
-    //            Player_Coquena.SetBool("Left", false);
-    //            Player_Coquena.SetBool("Up", false);
-    //            Player_Coquena.SetBool("Down", false);
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Player_Robot.SetBool("Move", false);
-    //        Player_Robot.SetBool("Idle", true);
-    //        Player_Coquena.SetBool("Move", false);
-    //        Player_Coquena.SetBool("Idle", true);
-    //    }
-    //}
 
     void ProcessInput(int inputKey)
     {
@@ -349,7 +250,7 @@ public class GameManagerV2 : MonoBehaviour
         // VALIDACIÓN DE TECLA
         if (inputKey == gameSequence[currentIndex])
         {
-            // sumamos el acierto por cada TECLA correcta
+            FindObjectOfType<AudioManager>().PlayGameSound(playerTurn, inputKey, true);// sumamos el acierto por cada TECLA correcta
             if (playerTurn == 0)
             {
                 p1Hits++;
@@ -387,10 +288,10 @@ public class GameManagerV2 : MonoBehaviour
         }
         else
         {
+            FindObjectOfType<AudioManager>().PlayGameSound(playerTurn, inputKey, false);
             ManejarFallo();
         }
     }
-
     void ManejarFallo()
     {
         canPress = false;
