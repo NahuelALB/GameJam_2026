@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManagerV2 : MonoBehaviour
 {
@@ -322,13 +323,15 @@ public class GameManagerV2 : MonoBehaviour
             Debug.Log("P2 FALLÓ. Vidas: " + p2Lives);
         }
 
-        if (p1Lives <= 0 || p2Lives <= 0)
+        if (p1Lives <= 0)
         {
             Debug.Log("GAME OVER!!");
+            SceneManager.LoadScene(3);
             Invoke("RepeatSequence", 3f);
         }
-        else
+        else if (p2Lives <=0)
         {
+            SceneManager.LoadScene(4);
             Invoke("ReintentarMismoTurno", 1.5f);
         }
     }
