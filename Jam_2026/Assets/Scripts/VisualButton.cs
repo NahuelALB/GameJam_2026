@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class VisualButton : MonoBehaviour
 {
+
     public Image arrow; //Referencia de la imagen
     private Color originalColor;
     public Color brightColor;
@@ -16,6 +17,11 @@ public class VisualButton : MonoBehaviour
         originalColor = arrow.color;
     }
 
+    void Start()
+    {
+        arrow.enabled = false;
+    }
+
     public void Brilla()
     {
         // Detenemos cualquier brillo previo para que no se encimen
@@ -25,6 +31,8 @@ public class VisualButton : MonoBehaviour
 
     IEnumerator EfectoBrilloSuave()
     {
+        //0. Activar imagen para que sea visible
+        arrow.enabled = true;
         // 1. Encendido instant neo al color brillante
         arrow.color = brightColor;
         
@@ -39,5 +47,6 @@ public class VisualButton : MonoBehaviour
         }
         // Aseguramos que quede el color original al final
         arrow.color = originalColor;
+        arrow.enabled = false;
     }
 }
