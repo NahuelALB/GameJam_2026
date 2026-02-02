@@ -16,7 +16,8 @@ public class GameManagerV2 : MonoBehaviour
     public float indicatorOffset = 3f;
     public float moveSpeed = 5f;
     public float rotationSpeed = 100f;
-    public Color normalColor = Color.cyan;
+    public Color normalColor;
+    public Color correctColor = Color.cyan;
     public Color errorColor = Color.red;
 
     // Todo sobre la lógica del juego
@@ -88,6 +89,13 @@ public class GameManagerV2 : MonoBehaviour
         }
     }
 
+    IEnumerator ResetIndicatorColor()
+    {
+        CambiarColorIndicador(errorColor);
+        yield return new WaitForSeconds(1f);
+        CambiarColorIndicador(normalColor);
+    }
+
     void StartTurn()
     {
         playerTurn = Random.Range(0, 2);
@@ -100,13 +108,21 @@ public class GameManagerV2 : MonoBehaviour
     {
         if (Input.GetKeyDown(up))
         {
+            if (playerTurn == 0) player1.playerAnimator.SetTrigger("Up");
+            else player2.playerAnimator.SetTrigger("Up");
+
             canPress = false;
             ProcessInput(0);
             yield return new WaitForSeconds(0.5f);
             canPress = true;
+
+
         }
         else if (Input.GetKeyDown(down))
         {
+            if (playerTurn == 0) player1.playerAnimator.SetTrigger("Down");
+            else player2.playerAnimator.SetTrigger("Down");
+
             canPress = false;
             ProcessInput(1);
             yield return new WaitForSeconds(0.5f);
@@ -114,6 +130,9 @@ public class GameManagerV2 : MonoBehaviour
         }
         else if (Input.GetKeyDown(left))
         {
+            if (playerTurn == 0) player1.playerAnimator.SetTrigger("Left");
+            else player2.playerAnimator.SetTrigger("Left");
+
             canPress = false;
             ProcessInput(2);
             yield return new WaitForSeconds(0.5f);
@@ -121,13 +140,20 @@ public class GameManagerV2 : MonoBehaviour
         }
         else if (Input.GetKeyDown(right))
         {
+            if (playerTurn == 0) player1.playerAnimator.SetTrigger("Right");
+            else player2.playerAnimator.SetTrigger("Right");
+
             canPress = false;
             ProcessInput(3);
             yield return new WaitForSeconds(0.5f);
             canPress = true;
         }
-        // Nota: Simplifiqué un poco la visual para no saturar, pero mantén tus animaciones si lo prefieres
-        yield return null;
+        else
+        {
+            yield return null;
+            if (playerTurn == 0) player1.playerAnimator.SetBool("Idle", true);
+            else player2.playerAnimator.SetBool("Idle", true);
+        }
     }
 
 
@@ -150,6 +176,7 @@ public class GameManagerV2 : MonoBehaviour
 
         if (gameSequence.Count == 0)
         {
+            FindObjectOfType<AudioManager>().PlayGameSound(playerTurn, inputKey, true);
             gameSequence.Add(inputKey);
             canPress = false;
             Invoke("ChangeTurn", 0.5f);
@@ -163,6 +190,7 @@ public class GameManagerV2 : MonoBehaviour
             currentIndex++;
             if (currentIndex >= gameSequence.Count)
             {
+                CambiarColorIndicador(correctColor);
                 waitingNewInput = true;
             }
         }
@@ -170,6 +198,8 @@ public class GameManagerV2 : MonoBehaviour
         {
             FindObjectOfType<AudioManager>().PlayGameSound(playerTurn, inputKey, false);
             ManejarFallo();
+            if (playerTurn == 0) player1.playerAnimator.SetTrigger("Error");
+            else player2.playerAnimator.SetTrigger("Error");
         }
     }
 
@@ -202,7 +232,7 @@ public class GameManagerV2 : MonoBehaviour
     void ManejarFallo()
     {
         canPress = false;
-        CambiarColorIndicador(errorColor);
+        StartCoroutine(ResetIndicatorColor());
 
         if (playerTurn == 0)
         {

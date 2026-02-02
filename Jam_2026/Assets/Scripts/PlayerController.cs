@@ -16,15 +16,8 @@ public class PlayerController : MonoBehaviour
     // Contadores de teclas acertadas
     public int playerHits = 0;
 
-    void Start()
+    void PlayAnimation()
     {
         
     }
-
-    void Update()
-    {
-        
-    }
-
-
 }

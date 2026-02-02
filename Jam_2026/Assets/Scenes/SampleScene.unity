@@ -54949,7 +54949,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 940a9615899ab9647b17d39a5f88424f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -59507,7 +59507,8 @@ MonoBehaviour:
   indicatorOffset: 1.2
   moveSpeed: 5
   rotationSpeed: 100
-  normalColor: {r: 0, g: 1, b: 0.0575552, a: 1}
+  normalColor: {r: 0.2784314, g: 0.28627452, b: 0.47058824, a: 1}
+  correctColor: {r: 0, g: 1, b: 0.058823533, a: 1}
   errorColor: {r: 1, g: 0, b: 0, a: 1}
   time: 20
   timerUI: {fileID: 497608421}
