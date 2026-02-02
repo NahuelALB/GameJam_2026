@@ -7,15 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManagerV2 : MonoBehaviour
 {
-    // Todo sobre el Player 1
-    public Animator Player_Robot;
-    public VisualButton[] buttonsPlayer_1;
-    public Slider sliderP1; 
-
-    // Todo sobre el Player 2
-    public Animator Player_Coquena;
-    public VisualButton[] buttonsPlayer_2;
-    public Slider sliderP2;
+    //Player References
+    public PlayerController player1;
+    public PlayerController player2;
 
     // Indicador de turno 3D
     public Transform turnIndicator;
@@ -23,7 +17,7 @@ public class GameManagerV2 : MonoBehaviour
     public float moveSpeed = 5f;
     public float rotationSpeed = 100f;
     public Color normalColor = Color.cyan;
-    public Color errorColor = Color.red; 
+    public Color errorColor = Color.red;
 
     // Todo sobre la lógica del juego
     private List<int> gameSequence = new List<int>();
@@ -32,21 +26,10 @@ public class GameManagerV2 : MonoBehaviour
     private int playerTurn;
     private bool waitingNewInput = false;
 
-    // Control de vidas
-    private int p1Lives = 3;
-    public TextMeshProUGUI healthP1;
-    private int p2Lives = 3;
-    public TextMeshProUGUI healthP2;
-
-    // Contadores de teclas acertadas
-    private int p1Hits = 0;
-    private int p2Hits = 0;
-
     // Todo sobre la UI
     public float time = 20;
     private float timeForAnswer;
     public TextMeshProUGUI timerUI;
-
 
     void Start()
     {
@@ -54,8 +37,8 @@ public class GameManagerV2 : MonoBehaviour
         Invoke("StartTurn", 3f);
         timeForAnswer = time;
 
-        if (sliderP1 != null) sliderP1.value = 0;
-        if (sliderP2 != null) sliderP2.value = 0;
+        if (player1.sliderPowerUp != null) player1.sliderPowerUp.value = 0;
+        if (player2.sliderPowerUp != null) player2.sliderPowerUp.value = 0;
     }
 
     void Update()
@@ -84,14 +67,14 @@ public class GameManagerV2 : MonoBehaviour
 
         timerUI.text = Mathf.FloorToInt(timeForAnswer).ToString();
 
-        healthP1.text = p1Lives.ToString();
-        healthP2.text = p2Lives.ToString();
+        player1.healthPlayer.text = player1.playerLives.ToString();
+        player2.healthPlayer.text = player2.playerLives.ToString();
     }
 
     void MoverYRotarIndicador()
     {
         if (turnIndicator == null) return;
-        Transform targetPlayer = (playerTurn == 0) ? Player_Robot.transform : Player_Coquena.transform;
+        Transform targetPlayer = (playerTurn == 0) ? player1.playerAnimator.transform : player2.playerAnimator.transform;
         Vector3 targetPosition = targetPlayer.position + Vector3.up * indicatorOffset;
         turnIndicator.position = Vector3.Lerp(turnIndicator.position, targetPosition, Time.deltaTime * moveSpeed);
         turnIndicator.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
@@ -101,15 +84,14 @@ public class GameManagerV2 : MonoBehaviour
     {
         if (turnIndicator != null)
         {
-            // Importante: Esto asume que el objeto tiene un MeshRenderer (como un cubo o capsula de Unity)
             turnIndicator.GetComponent<MeshRenderer>().material.color = nuevoColor;
         }
     }
-    
+
     void StartTurn()
     {
         playerTurn = Random.Range(0, 2);
-        CambiarColorIndicador(normalColor); // AGREGADO: Color inicial
+        CambiarColorIndicador(normalColor);
         Debug.Log("Empieza el Jugador: " + playerTurn);
         canPress = true;
     }
@@ -118,130 +100,41 @@ public class GameManagerV2 : MonoBehaviour
     {
         if (Input.GetKeyDown(up))
         {
+            canPress = false;
             ProcessInput(0);
-            if (playerTurn == 0)
-            {
-                Player_Robot.SetBool("Idle", false);
-                Player_Robot.SetBool("Move", true);
-                Player_Robot.SetBool("Up", true);
-                Player_Robot.SetBool("Down", false);
-                Player_Robot.SetBool("Left", false);
-                Player_Robot.SetBool("Right", false);
-                canPress = false;
-                yield return new WaitForSeconds(0.2f);
-                canPress = true;
-            }
-            else
-            {
-                Player_Coquena.SetBool("Idle", false);
-                Player_Coquena.SetBool("Move", true);
-                Player_Coquena.SetBool("Up", true);
-                Player_Coquena.SetBool("Down", false);
-                Player_Coquena.SetBool("Left", false);
-                Player_Coquena.SetBool("Right", false);
-                canPress = false;
-                yield return new WaitForSeconds(0.2f);
-                canPress = true;
-            }
+            yield return new WaitForSeconds(0.5f);
+            canPress = true;
         }
         else if (Input.GetKeyDown(down))
         {
+            canPress = false;
             ProcessInput(1);
-            if (playerTurn == 0)
-            {
-                Player_Robot.SetBool("Idle", false);
-                Player_Robot.SetBool("Move", true);
-                Player_Robot.SetBool("Down", true);
-                Player_Robot.SetBool("Up", false);
-                Player_Robot.SetBool("Left", false);
-                Player_Robot.SetBool("Right", false);
-                canPress = false;
-                yield return new WaitForSeconds(0.2f);
-                canPress = true;
-            }
-            else
-            {
-                Player_Coquena.SetBool("Idle", false);
-                Player_Coquena.SetBool("Move", true);
-                Player_Coquena.SetBool("Down", true);
-                Player_Coquena.SetBool("Up", false);
-                Player_Coquena.SetBool("Left", false);
-                Player_Coquena.SetBool("Right", false);
-                canPress = false;
-                yield return new WaitForSeconds(0.2f);
-                canPress = true;
-            }
+            yield return new WaitForSeconds(0.5f);
+            canPress = true;
         }
         else if (Input.GetKeyDown(left))
         {
+            canPress = false;
             ProcessInput(2);
-            if (playerTurn == 0)
-            {
-                Player_Robot.SetBool("Idle", false);
-                Player_Robot.SetBool("Move", true);
-                Player_Robot.SetBool("Left", true);
-                Player_Robot.SetBool("Right", false);
-                Player_Robot.SetBool("Up", false);
-                Player_Robot.SetBool("Down", false);
-                canPress = false;
-                yield return new WaitForSeconds(0.2f);
-                canPress = true;
-            }
-            else
-            {
-                Player_Coquena.SetBool("Idle", false);
-                Player_Coquena.SetBool("Move", true);
-                Player_Coquena.SetBool("Left", true);
-                Player_Coquena.SetBool("Right", false);
-                Player_Coquena.SetBool("Up", false);
-                Player_Coquena.SetBool("Down", false);
-                canPress = false;
-                yield return new WaitForSeconds(0.2f);
-                canPress = true;
-            }
+            yield return new WaitForSeconds(0.5f);
+            canPress = true;
         }
         else if (Input.GetKeyDown(right))
         {
+            canPress = false;
             ProcessInput(3);
-            if (playerTurn == 0)
-            {
-                Player_Robot.SetBool("Idle", false);
-                Player_Robot.SetBool("Move", true);
-                Player_Robot.SetBool("Right", true);
-                Player_Robot.SetBool("Left", false);
-                Player_Robot.SetBool("Up", false);
-                Player_Robot.SetBool("Down", false);
-                canPress = false;
-                yield return new WaitForSeconds(0.2f);
-                canPress = true;
-            }
-            else
-            {
-                Player_Coquena.SetBool("Idle", false);
-                Player_Coquena.SetBool("Move", true);
-                Player_Coquena.SetBool("Right", true);
-                Player_Coquena.SetBool("Left", false);
-                Player_Coquena.SetBool("Up", false);
-                Player_Coquena.SetBool("Down", false);
-                canPress = false;
-                yield return new WaitForSeconds(0.2f);
-                canPress = true;
-            }
+            yield return new WaitForSeconds(0.5f);
+            canPress = true;
         }
-        else
-        {
-            Player_Robot.SetBool("Move", false);
-            Player_Robot.SetBool("Idle", true);
-            Player_Coquena.SetBool("Move", false);
-            Player_Coquena.SetBool("Idle", true);
-        }
+        // Nota: Simplifiqué un poco la visual para no saturar, pero mantén tus animaciones si lo prefieres
+        yield return null;
     }
 
 
     void ProcessInput(int inputKey)
     {
-        if (playerTurn == 0) buttonsPlayer_1[inputKey].Brilla();
-        else buttonsPlayer_2[inputKey].Brilla();
+        if (playerTurn == 0) player1.buttonsPlayer[inputKey].Brilla();
+        else player2.buttonsPlayer[inputKey].Brilla();
 
         if (waitingNewInput == true)
         {
@@ -250,7 +143,7 @@ public class GameManagerV2 : MonoBehaviour
             canPress = false;
             waitingNewInput = false;
             currentIndex = 0;
-            timeForAnswer = 10;
+            timeForAnswer = time;
             Invoke("ChangeTurn", 0.5f);
             return;
         }
@@ -266,33 +159,10 @@ public class GameManagerV2 : MonoBehaviour
         if (inputKey == gameSequence[currentIndex])
         {
             FindObjectOfType<AudioManager>().PlayGameSound(playerTurn, inputKey, true);
-            if (playerTurn == 0)
-            {
-                p1Hits++;
-                if (sliderP1 != null) sliderP1.value = p1Hits; 
-                if (p1Hits >= 10)
-                {
-                    p1Lives++;
-                    p1Hits = 0;
-                    if (sliderP1 != null) sliderP1.value = 0; 
-                }
-            }
-            else
-            {
-                p2Hits++;
-                if (sliderP2 != null) sliderP2.value = p2Hits; 
-                if (p2Hits >= 10)
-                {
-                    p2Lives++;
-                    p2Hits = 0;
-                    if (sliderP2 != null) sliderP2.value = 0; 
-                }
-            }
-
+            ActualizarHits();
             currentIndex++;
             if (currentIndex >= gameSequence.Count)
             {
-                Debug.Log("CORRECTOOO!!");
                 waitingNewInput = true;
             }
         }
@@ -303,67 +173,89 @@ public class GameManagerV2 : MonoBehaviour
         }
     }
 
-    void ManejarFallo()
+    void ActualizarHits()
     {
-        canPress = false;
-        CambiarColorIndicador(errorColor); // AGREGADO: Se pone rojo al fallar
-
         if (playerTurn == 0)
         {
-            p1Lives--;
-            p1Hits = 0; 
-            if (sliderP1 != null) sliderP1.value = 0; 
-            Debug.Log("P1 FALLÓ. Vidas: " + p1Lives);
+            player1.playerHits++;
+            if (player1.sliderPowerUp != null) player1.sliderPowerUp.value = player1.playerHits;
+            if (player1.playerHits >= 10)
+            {
+                player1.playerLives++;
+                player1.playerHits = 0;
+                player1.sliderPowerUp.value = 0;
+            }
         }
         else
         {
-            p2Lives--;
-            p2Hits = 0; 
-            if (sliderP2 != null) sliderP2.value = 0; 
-            Debug.Log("P2 FALLÓ. Vidas: " + p2Lives);
-        }
-
-        if (p1Lives <= 0)
-        {
-            Debug.Log("GAME OVER!!");
-            SceneManager.LoadScene(3);
-            Invoke("RepeatSequence", 3f);
-        }
-        else if (p2Lives <=0)
-        {
-            SceneManager.LoadScene(4);
-            Invoke("ReintentarMismoTurno", 1.5f);
+            player2.playerHits++;
+            if (player2.sliderPowerUp != null) player2.sliderPowerUp.value = player2.playerHits;
+            if (player2.playerHits >= 10)
+            {
+                player2.playerLives++;
+                player2.playerHits = 0;
+                player2.sliderPowerUp.value = 0;
+            }
         }
     }
 
-    void ReintentarMismoTurno()
+    void ManejarFallo()
     {
+        canPress = false;
+        CambiarColorIndicador(errorColor);
+
+        if (playerTurn == 0)
+        {
+            player1.playerLives--;
+            player1.playerHits = 0;
+            if (player1.sliderPowerUp != null) player1.sliderPowerUp.value = 0;
+        }
+        else
+        {
+            player2.playerLives--;
+            player2.playerHits = 0;
+            if (player2.sliderPowerUp != null) player2.sliderPowerUp.value = 0;
+        }
+
+        // Revisar Game Over (Corrección)
+        if (player1.playerLives <= 0)
+        {
+            SceneManager.LoadScene(3);
+            return;
+        }
+        if (player2.playerLives <= 0)
+        {
+            SceneManager.LoadScene(4);
+            return;
+        }
+
+        // SI NO ES GAME OVER: Limpiar secuencia y pasar el turno al otro
         gameSequence.Clear();
         currentIndex = 0;
-        timeForAnswer = time;
-        CambiarColorIndicador(normalColor); // AGREGADO: Vuelve al color normal
-        canPress = true;
+        //Invoke("ChangeTurn", 1.5f); // Espera un poco en rojo y luego cambia
     }
 
     void ChangeTurn()
     {
         playerTurn = (playerTurn == 0) ? 1 : 0;
-        CambiarColorIndicador(normalColor); // AGREGADO: Color normal para el siguiente
+        CambiarColorIndicador(normalColor); // Aquí vuelve al color normal (verde/cian)
         canPress = true;
         timeForAnswer = time;
+        waitingNewInput = false;
+        currentIndex = 0;
     }
 
     void RepeatSequence()
     {
         gameSequence.Clear();
-        p1Lives = 3;
-        p2Lives = 3;
-        p1Hits = 0;
-        p2Hits = 0;
-        if (sliderP1 != null) sliderP1.value = 0; 
-        if (sliderP2 != null) sliderP2.value = 0; 
+        player1.playerLives = 3;
+        player2.playerLives = 3;
+        player1.playerHits = 0;
+        player2.playerHits = 0;
+        if (player1.sliderPowerUp != null) player1.sliderPowerUp.value = 0;
+        if (player2.sliderPowerUp != null) player2.sliderPowerUp.value = 0;
         currentIndex = 0;
-        CambiarColorIndicador(normalColor); // AGREGADO: Reset de color
+        CambiarColorIndicador(normalColor);
         canPress = true;
         timeForAnswer = time;
     }

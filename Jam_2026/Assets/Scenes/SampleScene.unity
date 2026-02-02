@@ -39772,6 +39772,7 @@ GameObject:
   - component: {fileID: 1456312347}
   - component: {fileID: 1456312346}
   - component: {fileID: 1456312345}
+  - component: {fileID: 1456312348}
   m_Layer: 0
   m_Name: Coquena
   m_TagString: Player
@@ -39871,6 +39872,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 233.1, z: 0}
+--- !u!114 &1456312348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456312344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e606fb0eee1351e44ba8ba294c48fb54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAnimator: {fileID: 1456312345}
+  buttonsPlayer:
+  - {fileID: 63978234}
+  - {fileID: 1812885434}
+  - {fileID: 1834676685}
+  - {fileID: 1848469153}
+  sliderPowerUp: {fileID: 1956564248}
+  playerLives: 3
+  healthPlayer: {fileID: 1484708785}
+  playerHits: 0
 --- !u!1001 &1457716581
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55757,6 +55780,7 @@ GameObject:
   - component: {fileID: 1970498474}
   - component: {fileID: 1970498473}
   - component: {fileID: 1970498472}
+  - component: {fileID: 1970498475}
   m_Layer: 0
   m_Name: Robot
   m_TagString: Player
@@ -55856,6 +55880,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -131.13, z: 0}
+--- !u!114 &1970498475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970498471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e606fb0eee1351e44ba8ba294c48fb54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAnimator: {fileID: 1970498472}
+  buttonsPlayer:
+  - {fileID: 184334780}
+  - {fileID: 258070166}
+  - {fileID: 470152966}
+  - {fileID: 715119737}
+  sliderPowerUp: {fileID: 99475375}
+  playerLives: 3
+  healthPlayer: {fileID: 991754539}
+  playerHits: 0
 --- !u!1001 &1970781284
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59455,28 +59501,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b47747c9412c97841b28ec781a24ba8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player_Robot: {fileID: 1970498472}
-  buttonsPlayer_1:
-  - {fileID: 184334780}
-  - {fileID: 258070166}
-  - {fileID: 470152966}
-  - {fileID: 715119737}
-  sliderP1: {fileID: 99475375}
-  Player_Coquena: {fileID: 1456312345}
-  buttonsPlayer_2:
-  - {fileID: 63978234}
-  - {fileID: 1812885434}
-  - {fileID: 1834676685}
-  - {fileID: 1848469153}
-  sliderP2: {fileID: 1956564248}
+  player1: {fileID: 1970498475}
+  player2: {fileID: 1456312348}
   turnIndicator: {fileID: 1943270900}
   indicatorOffset: 1.2
   moveSpeed: 5
   rotationSpeed: 100
   normalColor: {r: 0, g: 1, b: 0.0575552, a: 1}
   errorColor: {r: 1, g: 0, b: 0, a: 1}
-  healthP1: {fileID: 991754539}
-  healthP2: {fileID: 1484708785}
   time: 20
   timerUI: {fileID: 497608421}
 --- !u!114 &2082336089
