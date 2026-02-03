@@ -231,12 +231,12 @@ public class GameManagerV2 : MonoBehaviour
         // Revisar Game Over (Corrección)
         if (player1.playerLives <= 0)
         {
-            SceneManager.LoadScene(4);
+            SceneManager.LoadScene(5);
             return;
         }
         if (player2.playerLives <= 0)
         {
-            SceneManager.LoadScene(5);
+            SceneManager.LoadScene(6);
             return;
         }
 
