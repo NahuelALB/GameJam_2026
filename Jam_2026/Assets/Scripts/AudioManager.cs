@@ -6,12 +6,16 @@ public class AudioManager : MonoBehaviour
     public AudioSource backgroundMusic; // Arrastra aquí tu canción
     [Range(0f, 1f)] public float musicVolume = 0.5f;
 
+    [Header("Correct Sound")]
+    public AudioSource correctSound;
+
     [Header("Sonidos Player 1 (W, S, A, D)")]
     public AudioSource soundW;
     public AudioSource soundS;
     public AudioSource soundA;
     public AudioSource soundD;
     public AudioSource failP1;
+    
 
     [Header("Sonidos Player 2 (Flechas)")]
     public AudioSource soundUp;
@@ -19,6 +23,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource soundLeft;
     public AudioSource soundRight;
     public AudioSource failP2;
+
 
     private void Start()
     {
@@ -48,6 +53,7 @@ public class AudioManager : MonoBehaviour
                 case 1: soundS.Play(); break;
                 case 2: soundA.Play(); break;
                 case 3: soundD.Play(); break;
+                case 4: correctSound.Play(); break;
             }
         }
         else // Player 2
@@ -58,6 +64,7 @@ public class AudioManager : MonoBehaviour
                 case 1: soundDown.Play(); break;
                 case 2: soundLeft.Play(); break;
                 case 3: soundRight.Play(); break;
+                case 4: correctSound.Play(); break;
             }
         }
     }

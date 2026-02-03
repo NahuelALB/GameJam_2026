@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,14 +11,18 @@ public class PlayerController : MonoBehaviour
     public Slider sliderPowerUp;
 
     // Control de vidas
+    public Color colorError;
+    public Color normalColor;
     public int playerLives = 3;
     public TextMeshProUGUI healthPlayer;
 
     // Contadores de teclas acertadas
     public int playerHits = 0;
 
-    void PlayAnimation()
+    public IEnumerator ResetColor()
     {
-        
+        gameObject.GetComponent<SpriteRenderer>().color = colorError;
+        yield return new WaitForSeconds(1f);
+        gameObject.GetComponent<SpriteRenderer>().color = normalColor;
     }
 }

@@ -7,27 +7,22 @@ using UnityEngine.SceneManagement;
 
 public class GameManagerV2 : MonoBehaviour
 {
-    //Player References
+    [Header ("Referencia al Player")]
+
     public PlayerController player1;
     public PlayerController player2;
 
-    // Indicador de turno 3D
-    public Transform turnIndicator;
-    public float indicatorOffset = 3f;
-    public float moveSpeed = 5f;
-    public float rotationSpeed = 100f;
-    public Color normalColor;
-    public Color correctColor = Color.cyan;
-    public Color errorColor = Color.red;
+    [Header ("Referencia al Indicador de turno")]
+    public Indicator indicatorCube;
 
     // Todo sobre la lógica del juego
     private List<int> gameSequence = new List<int>();
     private int currentIndex = 0;
     private bool canPress;
-    private int playerTurn;
+    public int playerTurn;
     private bool waitingNewInput = false;
 
-    // Todo sobre la UI
+    [Header ("Interfaz del Temporizador")]
     public float time = 20;
     private float timeForAnswer;
     public TextMeshProUGUI timerUI;
@@ -44,8 +39,8 @@ public class GameManagerV2 : MonoBehaviour
 
     void Update()
     {
-        MoverYRotarIndicador();
-
+        indicatorCube.MoveAndRotateIndicator();
+        
         if (canPress == false) return;
 
         if (playerTurn == 0)
@@ -72,34 +67,11 @@ public class GameManagerV2 : MonoBehaviour
         player2.healthPlayer.text = player2.playerLives.ToString();
     }
 
-    void MoverYRotarIndicador()
-    {
-        if (turnIndicator == null) return;
-        Transform targetPlayer = (playerTurn == 0) ? player1.playerAnimator.transform : player2.playerAnimator.transform;
-        Vector3 targetPosition = targetPlayer.position + Vector3.up * indicatorOffset;
-        turnIndicator.position = Vector3.Lerp(turnIndicator.position, targetPosition, Time.deltaTime * moveSpeed);
-        turnIndicator.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
-    }
-
-    void CambiarColorIndicador(Color nuevoColor)
-    {
-        if (turnIndicator != null)
-        {
-            turnIndicator.GetComponent<MeshRenderer>().material.color = nuevoColor;
-        }
-    }
-
-    IEnumerator ResetIndicatorColor()
-    {
-        CambiarColorIndicador(errorColor);
-        yield return new WaitForSeconds(1f);
-        CambiarColorIndicador(normalColor);
-    }
-
     void StartTurn()
     {
         playerTurn = Random.Range(0, 2);
-        CambiarColorIndicador(normalColor);
+        indicatorCube.ChangeColorIndicator(indicatorCube.normalColor);
+        //CambiarColorIndicador(normalColor);
         Debug.Log("Empieza el Jugador: " + playerTurn);
         canPress = true;
     }
@@ -190,7 +162,8 @@ public class GameManagerV2 : MonoBehaviour
             currentIndex++;
             if (currentIndex >= gameSequence.Count)
             {
-                CambiarColorIndicador(correctColor);
+                FindObjectOfType<AudioManager>().PlayGameSound(playerTurn, 4, true);
+                indicatorCube.ChangeColorIndicator(indicatorCube.correctColor);
                 waitingNewInput = true;
             }
         }
@@ -198,8 +171,16 @@ public class GameManagerV2 : MonoBehaviour
         {
             FindObjectOfType<AudioManager>().PlayGameSound(playerTurn, inputKey, false);
             ManejarFallo();
-            if (playerTurn == 0) player1.playerAnimator.SetTrigger("Error");
-            else player2.playerAnimator.SetTrigger("Error");
+            if (playerTurn == 0)
+            {
+                player1.playerAnimator.SetTrigger("Error");
+                StartCoroutine(player1.ResetColor());
+            }
+            else
+            { 
+                player2.playerAnimator.SetTrigger("Error");
+                StartCoroutine(player2.ResetColor());
+            }
         }
     }
 
@@ -232,7 +213,7 @@ public class GameManagerV2 : MonoBehaviour
     void ManejarFallo()
     {
         canPress = false;
-        StartCoroutine(ResetIndicatorColor());
+        StartCoroutine(indicatorCube.ResetIndicatorColor());
 
         if (playerTurn == 0)
         {
@@ -250,12 +231,12 @@ public class GameManagerV2 : MonoBehaviour
         // Revisar Game Over (Corrección)
         if (player1.playerLives <= 0)
         {
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(4);
             return;
         }
         if (player2.playerLives <= 0)
         {
-            SceneManager.LoadScene(4);
+            SceneManager.LoadScene(5);
             return;
         }
 
@@ -268,7 +249,7 @@ public class GameManagerV2 : MonoBehaviour
     void ChangeTurn()
     {
         playerTurn = (playerTurn == 0) ? 1 : 0;
-        CambiarColorIndicador(normalColor); // Aquí vuelve al color normal (verde/cian)
+        indicatorCube.ChangeColorIndicator(indicatorCube.normalColor); // Aquí vuelve al color normal (verde/cian)
         canPress = true;
         timeForAnswer = time;
         waitingNewInput = false;
@@ -285,7 +266,6 @@ public class GameManagerV2 : MonoBehaviour
         if (player1.sliderPowerUp != null) player1.sliderPowerUp.value = 0;
         if (player2.sliderPowerUp != null) player2.sliderPowerUp.value = 0;
         currentIndex = 0;
-        CambiarColorIndicador(normalColor);
         canPress = true;
         timeForAnswer = time;
     }
