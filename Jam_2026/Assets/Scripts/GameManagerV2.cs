@@ -23,7 +23,7 @@ public class GameManagerV2 : MonoBehaviour
     private bool waitingNewInput = false;
 
     [Header ("Interfaz del Temporizador")]
-    public float time = 20;
+    public float time = 8;
     private float timeForAnswer;
     public TextMeshProUGUI timerUI;
 
@@ -64,7 +64,12 @@ public class GameManagerV2 : MonoBehaviour
         timerUI.text = Mathf.FloorToInt(timeForAnswer).ToString();
 
         player1.healthPlayer.text = player1.playerLives.ToString();
+        if(player1.playerLives >= 3) player1.maxTextLives.enabled = true;
+        else player1.maxTextLives.enabled = false;
+
         player2.healthPlayer.text = player2.playerLives.ToString();
+        if (player2.playerLives >= 3) player2.maxTextLives.enabled = true;
+        else player2.maxTextLives.enabled = false;
     }
 
     void StartTurn()
@@ -193,6 +198,10 @@ public class GameManagerV2 : MonoBehaviour
             if (player1.playerHits >= 10)
             {
                 player1.playerLives++;
+                if (player1.playerLives > 3)
+                {
+                    player1.playerLives = 3;
+                }
                 player1.playerHits = 0;
                 player1.sliderPowerUp.value = 0;
             }
@@ -204,6 +213,7 @@ public class GameManagerV2 : MonoBehaviour
             if (player2.playerHits >= 10)
             {
                 player2.playerLives++;
+                if (player2.playerLives > 3) player2.playerLives = 3;
                 player2.playerHits = 0;
                 player2.sliderPowerUp.value = 0;
             }

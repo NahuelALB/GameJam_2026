@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public Color normalColor;
     public int playerLives = 3;
     public TextMeshProUGUI healthPlayer;
+    public TextMeshProUGUI maxTextLives;
 
     // Contadores de teclas acertadas
     public int playerHits = 0;
